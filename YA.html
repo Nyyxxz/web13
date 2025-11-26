@@ -3,27 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <title>ИНФА ОБО МНЕ</title>
-    <link rel = "stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <style>
+        .form-container {
+            margin: 20px auto;
+            max-width: 500px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .success {
+            color: green;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-<center><h1 style = "margin: 10 px; color: red">Основная информация</h1></center>
+
+<center><h1 style="margin: 10px; color: red">Основная информация</h1></center>
+
 <center>
-    <h2 style = "margin: 8 px; color: black; font-family: 'Courier New', Courier, monospace">Я 18-летний студент первого курса, живу в России, Воронеже</h2>
+    <h2 style="margin: 8px; color: black; font-family: 'Courier New', Courier, monospace">
+        Я 18-летний студент первого курса, живу в России, Воронеже
+    </h2>
+</center>
+
+<center>
+    <h2 style="margin: 8px; color: black; font-family: 'Courier New', Courier, monospace">
+        Говоря обобщённо, учусь на программиста, в меру общительный, контактный и дружелюбный
+    </h2>
+</center>
+
+<center>
+    <h2 style="margin: 8px; color: black; font-family: 'Courier New', Courier, monospace">
+        А чтобы увидеть что-то крутое — нажмите ниже
+    </h2>
 </center>
 <center>
-    <h2 style = "margin: 8 px; color: black; font-family: 'Courier New', Courier, monospace">Говоря обобщённо, учусь на прораммиста, в меру общительный, контактный и дружелюбный</h2>
+    <button id="showFormBtn" style="margin: 20px; font-family: 'Courier New', Courier, monospace">
+        Показать крутое!
+    </button>
 </center>
-    <center>
-    <h2 style = "margin: 8 px; color: black; font-family: 'Courier New', Courier, monospace">А чтобы увидеть что-то крутое нажмите ниже</h2>
-</center>
-<center><a href = "index.html" style = "margin: 20 px; color: black; font-family: 'Courier New', Courier, monospace">DASHA DOSHIK SLIVI</a></center>
+<div class="form-container" id="feedbackForm">
+    <h3>Форма обратной связи</h3>
+    <form id="contactForm">
+        <label>Имя:</label>
+        <input type="text" id="name" placeholder="Ваше имя">
+
+        <label>Email:</label>
+        <input type="email" id="email" placeholder="your@email.com">
+
+        <label>Комментарий:</label>
+        <textarea id="comment" rows="4" placeholder="Ваш комментарий"></textarea>
+
+        <button type="submit">Отправить</button>
+    </form>
+    <div id="message"></div>
+</div>
+<script>
+"use strict";
+
+document.getElementById('showFormBtn').addEventListener('click', function() {
+    document.getElementById('feedbackForm').style.display = 'block';
+    this.style.display = 'none';
+});
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const comment = document.getElementById('comment').value.trim();
+    const messageDiv = document.getElementById('message');
+    messageDiv.innerHTML = '';
+    messageDiv.className = '';
+    let isValid = true;
+    if (name === '') {
+        showMessage('Поле "Имя" не может быть пустым.', 'error');
+        isValid = false;
+    } else if (email === '') {
+        showMessage('Поле "Email" не может быть пустым.', 'error');
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        showMessage('Email введён некорректно.', 'error');
+        isValid = false;
+    } else if (comment === '') {
+        showMessage('Поле "Комментарий" не может быть пустым.', 'error');
+        isValid = false;
+    }
+    if (isValid) {
+        showMessage(`Привет, ${name}! Спасибо за ваш комментарий:<br>"${comment}"`, 'success');
+        document.getElementById('contactForm').reset();
+    }
+});
+
+function isValidEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function showMessage(text, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.innerHTML = text;
+    messageDiv.className = type;
+}
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
